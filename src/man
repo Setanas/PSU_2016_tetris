@@ -1,0 +1,14 @@
+USAGE
+	./tetris [OPTION] ...
+
+DESCRIPTION
+	-l -l=num	   start at level num (def: 1)
+	-kl - key-left=K   move the tetrumino LEFT using the K key (def: left arrow)
+	-kr - key-rigth=K  move the tetrimino RIGHT using the K key (def: rigth arrow)
+	-kt - key-top=K    TURN the tetrimino clockwise 90° using the K key (def: top arrow)
+	-kd - key-drop=K   DROP the tetrimino using the K key (def: down arrow)
+	-kq - key-quit=K   QUIT the game using the K key (def: 'Q' key)
+	-kp - key-pause=K  PAUSE/RESTART the game using the K key (def: space bar)
+	-map-size=row,col  set the numbers of rows and columms of the map (def: 20,10)
+	-w -without-next   hide next tetrimino (def: false)
+	-d -debug          debug mode (def: false)
