@@ -1,75 +1,91 @@
 /*
-** get_next_line.c for CPE_2017_getnextline in /home/rault_g/travail/CPE/CPE_2017_getnextline/src
+** get_next_line.c for PSU_2016_tetris in /home/TAN_S/PSU_2016_tetris/src
 **
-** Made by Guillaume RAULT
-** Login   <rault_g@epitech.net>
+** Made by Sébastien TAN
+** Login   <TAN_S@epitech.net>
 **
-** Started on  Mon Jan 02 16:26:52 2017 Guillaume RAULT
-** Last update Sun Feb 19 14:54:53 2017 Guillaume RAULT
+** Started on  Fri Mar 17 01:12:59 2017 Sébastien TAN
+** Last update Fri Mar 17 01:13:05 2017 Sébastien TAN
 */
 
-#include	<unistd.h>
-#include	<stdlib.h>
-#include	"my.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include "my.h"
 
-char		*my_realloc(char *array, int i)
+char			*gain_some_line(char *retour)
 {
-  char		*str2;
-  int		t;
+  free (retour);
+  return (NULL);
+}
 
-  t = 0;
-  str2 = malloc(sizeof(char) * i + 1);
-  if (str2 == NULL)
+char			*reallocation(char *retour, t_static *st, int a, int fd)
+{
+  int			incre;
+  char			*stock;
+
+  incre = 0;
+  retour[a] = st->buffer[st->i];
+  st->i = 0;
+  st->size = read(fd, st->buffer, READ_SIZE);
+  if ((stock = malloc(sizeof(char) * (st->size + a + 2))) == NULL)
     return (NULL);
-  while (array[t] != '\0')
+  while (incre < a)
     {
-      str2[t] = array[t];
-      t++;
+      stock[incre] = retour[incre];
+      incre++;
     }
-  free (array);
-  return (str2);
+  free(retour);
+  stock[incre] = 0;
+  return (stock);
 }
 
-char	*reduce_size(char *str, int i, int *pointeur)
+char			colgate_2_en_1(t_static *st, int *a, int what_to_do)
 {
-  str[i] = '\0';
-  str = my_realloc(str, i + READ_SIZE);
-  *pointeur = 0;
-  return (str);
-}
-
-char	*norme(char *str, int i, int *a)
-{
-  str[i] = '\0';
-  *a = *a - 1;
-  return (str);
-}
-
-char		*get_next_line(const int fd)
-{
-  static int	pointeur = 0;
-  static char	buffer[READ_SIZE];
-  static int	a = 0;
-  char		*str;
-  int		i;
-
-  i = 0;
-  if ((str = malloc(sizeof(char) * READ_SIZE + 1)) == NULL)
-    return (NULL);
-  if (a == 0 && (a = read(fd, buffer, READ_SIZE)))
-      pointeur = 0;
-  if (a == -1 || a == 0)
+  st->i = st->i + 1;
+  if (what_to_do == 1)
     {
-      a = 0;
+      *a = *a + 1;
+      return (st->buffer[st->i - 1]);
+    }
+  return ('\0');
+}
+
+int			first_read(char *buffer, char **retour, int *i, int fd)
+{
+  int			size;
+
+  size = read(fd, buffer, READ_SIZE);
+  if ((*retour = malloc(sizeof(char) * size + 1)) == NULL)
+    return (-1);
+  *i = 0;
+  return (size);
+}
+
+char			*get_next_line(const int fd)
+{
+  static t_static	st = {{0}, 0, 0};
+  char			*retour;
+  int			a;
+
+  a = 0;
+  if (st.buffer[0] == 0 || st.i == READ_SIZE)
+    st.size = first_read(st.buffer, &retour, &st.i, fd);
+  else
+    if ((st.size == - 1) ||
+	(retour = malloc(sizeof(char) * st.size - st.i + 2)) == NULL)
       return (NULL);
-    }
-  while (buffer[pointeur] != '\n' && buffer[pointeur] != '\0')
+  while (st.buffer[st.i] != '\n')
     {
-      str[i++] = buffer[pointeur++];
-      if (--a == 0 && (a = read(fd, buffer, READ_SIZE)))
-	str = reduce_size(str, i, &pointeur);
+      retour[a] = colgate_2_en_1(&st, &a, 1);
+      if (st.i == st.size && st.buffer[st.i] != '\n')
+	if ((retour = reallocation(retour, &st, a, fd)) == NULL)
+	  return (NULL);
+      (st.size == 0) ? st.buffer[st.i] = '\0' : 0;
+      if (st.i >= st.size)
+	return (gain_some_line(retour));
     }
-  str = norme(str, i, &a);
-  pointeur++;
-  return (str);
+  retour[a] = colgate_2_en_1(&st, &a, 3);
+  if (st.size <= 0)
+    return (gain_some_line(retour));
+  return (retour);
 }
