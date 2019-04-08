@@ -70,4 +70,7 @@ Options:
 ## Authors
 
 * **Sébastien Tan** - *Developer* - [Setanas](https://github.com/Setanas)
+
+## Collaborater
+
 * **Guillaume Chanut** - *Developer*
