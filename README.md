@@ -18,7 +18,7 @@ The programm use the ncruses library.
 
 ### Installing
 
-To install the game please use the Makefile to compile the original game.
+To install the game please use the Makefile to compile.
  
 ```
 $> make
