@@ -81,7 +81,7 @@ void	my_put_tab(char **tab, int color, int y)
   u[0] = 0;
   u[1] = 0;
   erase();
-  while (tab[u[1]] != '\0')
+  while (tab[u[1]] != NULL)
     {
       while (tab[u[1]][u[0] - 1] != '\n')
 	{
