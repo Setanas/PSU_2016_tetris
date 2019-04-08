@@ -5,7 +5,7 @@ This is a game where you have what we call "tetromino" which are geometric shape
 The goal is to form line with this tetromino on the bottom to win points. Each line formed will be destroyed.<br/>
 The game have different levels where the tetromino fall faster. In this one the possibility to turn the tetromino is disabled.<br/>
 
-![alt text](https://github.com/Setanas/PSU_2016_tetris/tree/master/ressources/tetris.png)
+![alt text](/ressources/tetris.png)
 
 ## Getting Started
 
