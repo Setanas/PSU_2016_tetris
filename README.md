@@ -30,7 +30,7 @@ At the end you should have a "tetris" binary in your current folder.
 
 You can create your own tetromino by adding a file {name}.tetrimino in the folder "tetriminos".<br/>
 (replace {name} by the name you want to give)<br/>
-The file muste have this format.
+The file must have this format.
 ```
 2 3 7
  *
